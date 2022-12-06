@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/valery/projects/alg_4/build",
+  "command": "/usr/bin/g++ -g -o CMakeFiles/main.dir/main.cpp.o -c /home/valery/projects/alg_4/main.cpp",
+  "file": "/home/valery/projects/alg_4/main.cpp"
+}
+]

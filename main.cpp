@@ -9,7 +9,7 @@ int main()
     int n;
     cout << "Введите значение одной из вершин дерева: "; cin >> n; 
 
-    if (tree.Search(n))
+    if (!tree.Search(n))
         cout << "Вершина найдена!" << endl;
     else 
         cout << "Вершина не найдена!" << endl;
@@ -19,7 +19,7 @@ int main()
     cout << "Степень вершины " << n << ": " << tree.Extent(n) << endl;
     cout << "Уровень вершины " << n << ": " << tree.Level(n) << endl;
     cout << "Высота дерева: " << tree.Height() << endl;
-    cout << "Поиск переменной " << n << ": " << endl;
+    cout << "Поиск переменной [" << n << "]" << endl;
 
     if (tree.AnyTreeSearch(n))
         cout << "Вершина найдена!" << endl;

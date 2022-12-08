@@ -9,14 +9,14 @@ Tree :: Tree()
 // Деструктор древа
 Tree :: ~Tree()
 {
-    ClearTree();
+    ClearTree(); // Вызов метода для полной очистки дерева
 }
 
 // Функция для создания узла древа
 TNode* Tree :: CreateTreeElement(int value)
 {
-    TNode* node = new TNode;
-    node -> data = value;
+    TNode* node = new TNode; // Создание элемента и передача 
+    node -> data = value;   // параметрам значения NULL
     node -> pLeft = NULL;
     node -> pRight = NULL;
     node ->pPrev = NULL;
@@ -26,13 +26,13 @@ TNode* Tree :: CreateTreeElement(int value)
 // Рекурсиваная функция ввода в древо
 TNode* Tree :: RecursionInsert(TNode* node, int value)
 {
-    if (node == NULL)
+    if (node == NULL) // проверка на значение элемента
     {
         node = CreateTreeElement(value);
     }
     else 
     {
-        if (node -> data < value)
+        if (node -> data < value) // условие БДП
         {
             node -> pRight = RecursionInsert(node -> pRight, value);
             node ->pRight -> pPrev = node;
@@ -49,28 +49,28 @@ TNode* Tree :: RecursionInsert(TNode* node, int value)
 // Функция для передачи значения после отработки рекурсивной функции
 void Tree :: Insert(int value)
 {
-    if (!(Search(value)))
+    if (!(Search(value))) // проверка на наличие
         return;
-    root = RecursionInsert(root, value);
+    root = RecursionInsert(root, value); // вызов рекурсивной функции
 
 }
 
 // Рекурсивная функция поиска по древу
 TNode* Tree :: RecursionSearch(TNode* node, int value)
 {
-    if (node == NULL)
+    if (node == NULL) // проверка на наличие
     {
         return NULL;
     }
     else 
     {
-        if(node -> data == value)
+        if(node -> data == value) // условие поиска
         {
             return node;
         }
         else
         {
-            if(node -> data < value)
+            if(node -> data < value) // условие для рекурсии
             {
                 return RecursionSearch(node -> pRight, value);
             }
@@ -89,10 +89,9 @@ bool Tree :: Search(int value)
     return res == NULL;
 }
 
-// Функция заполнения дерева случайными значениями
+// Функция заполнения дерева псевдо-случайными значениями
 void Tree :: RandInsert(int value)
 {
-    srand(500);
     for (int i = 0; i < value; i++)
     {
         Insert(rand()%200);
@@ -108,7 +107,7 @@ void Tree :: Print()
 // Рекурсивная функция печати по древу
 void Tree :: RecursionPrint(TNode* node, int padding)
 {
-    if (node != NULL && node -> data != 0)
+    if (node != NULL && node -> data != 0) // условие для продолжения рекурсии
     {
         cout << setw(padding) << ' ' << setw(0) << " [" << node -> data << "] " << endl;
         padding += 2;
@@ -116,13 +115,6 @@ void Tree :: RecursionPrint(TNode* node, int padding)
         RecursionPrint(node -> pRight, padding);
     }
 }
-
-// Функция выдачи ссылки на корень древа
-TNode* Tree :: GetTreeRoot()
-{
-    return root;
-}
-
 
 // Рекурсивная функция удаления с перестройкой
 TNode* Tree :: RemoveByValueRecursion(TNode* node, int value)
@@ -178,8 +170,6 @@ TNode* Tree :: RemoveByValueRecursion(TNode* node, int value)
     return node;
 }
 
-
-
 // Функция передачи конечного значения после удаления элемента
 // и перестройки дерева
 void Tree :: RemoveByValue(int value)
@@ -202,14 +192,16 @@ int Tree :: NextNodeRecursion(TNode* node)
 {
     if (node == NULL)
         return -1;
-    if (node -> pRight != NULL)
+    if (node -> pRight != NULL) // поиск минимального элемента справа
         return SearchForMin(node -> pRight);
-    else
+    else // если справа пусто
     {
         TNode* prev = node -> pPrev;
         TNode* curr = node;
 
-        while((prev != NULL) && curr == prev -> pRight)
+        while((prev != NULL) && curr == prev -> pRight) 
+        // если предыдущий элемент не равен нулю
+        // а нынешний равен правому предыдущего
         {
             curr = prev;
             prev = curr -> pPrev;
@@ -262,10 +254,10 @@ int Tree :: SearchForMinRecursion(TNode* node)
         return -1;
     else 
     {
-        if (node -> pLeft == NULL)
+        if (node -> pLeft == NULL) // если левый элемент не равнен нулю
             return node -> data;
         else
-            return SearchForMinRecursion(node -> pLeft);
+            return SearchForMinRecursion(node -> pLeft); // вызов рекурсии
     }
 }
 
@@ -282,10 +274,10 @@ int Tree :: SearchForMaxRecursion(TNode* node)
         return -1;
     else 
     {
-        if(node -> pRight == NULL)
+        if(node -> pRight == NULL) // если правый элемент не равен нулю
             return node -> data;
         else 
-            return SearchForMaxRecursion(node -> pRight);
+            return SearchForMaxRecursion(node -> pRight); // вызов рекурсии
     }
 }
 
@@ -304,6 +296,8 @@ void Tree :: RemoveMin()
 // Рекурсивная функция поиска и удаления минимального значения древа
 TNode* Tree :: RemoveMinRecursion(TNode* node)
 {
+    // Используются идентичные методы, что и в варианте 
+    // удаления элемента по номеру.
     TNode* temp = node;
     if (node == NULL)
         return NULL;
@@ -329,25 +323,29 @@ TNode* Tree :: RemoveMinRecursion(TNode* node)
     return node;
 }
 
+// Рекурсивная функция для подсчета узлов функции
 int Tree :: TotalNodesRecursion(TNode* node)
 {
     if(node == NULL)
         return 0;
-    int LeftSide = TotalNodesRecursion(node -> pLeft);
-    int RightSide = TotalNodesRecursion(node -> pRight);
+    int LeftSide = TotalNodesRecursion(node -> pLeft); // вызов рекурсии 
+    int RightSide = TotalNodesRecursion(node -> pRight); // вызов рекурсии 
     return 1 + LeftSide + RightSide; // Выводим значение двух счетчиков + учитываем корень
 }
 
+// Функция вывода конечного значения рекурсии
 int Tree :: TotalNodes()
 {
     return TotalNodesRecursion(root);
 }
 
+// Функция конечного вывода рекурсии
 int Tree :: TotalLeafs()
 {
     return TotalLeafsRecursion(root);
 }
 
+// Рекурсивная функция для подсчета количества листьев 
 int Tree :: TotalLeafsRecursion(TNode* node)
 {
     if (node == NULL)
@@ -358,6 +356,7 @@ int Tree :: TotalLeafsRecursion(TNode* node)
         return TotalLeafsRecursion(node -> pLeft) + TotalLeafsRecursion(node ->pRight);
 }
 
+// Функция для подсчета степени узла
 int Tree :: Extent(int value)
 {
     TNode* temp = RecursionSearch(root, value);
@@ -378,6 +377,7 @@ int Tree :: Extent(int value)
     
 }
 
+// Функция для подсчета уровня узла
 int Tree :: Level(int value)
 {
     TNode* temp = RecursionSearch(root, value);
@@ -392,6 +392,7 @@ int Tree :: Level(int value)
     return cnt;
 }
 
+// Рекурсивная функция для вычисления высоты дерева
 int Tree :: HeightRecursion(TNode* node)
 {
     if(node == NULL)
@@ -406,11 +407,13 @@ int Tree :: HeightRecursion(TNode* node)
     return 1 + res;
 }
 
+// Функция конечного вывода рекурсии
 int Tree :: Height()
 {
     return HeightRecursion(root);
 }
 
+// Рекурсиваня функция поиска для любого древа
 bool Tree :: AnyTreeSearchRecursion(TNode* node, int value)
 {
     if (node == NULL)
@@ -422,29 +425,32 @@ bool Tree :: AnyTreeSearchRecursion(TNode* node, int value)
     return (LeftSide or RightSide);
 }
 
+// Функция конечного вывода рекурсии
 bool Tree :: AnyTreeSearch(int value)
 {
     return AnyTreeSearchRecursion(root, value);
 } 
 
+// Функиция очистки поддрева
 void Tree :: ClearBranch(int value)
 {
-    TNode* temp = RecursionSearch(root, value);
-    if (temp == NULL)
+    TNode* temp = RecursionSearch(root, value); // ищем узел в котором находится value
+    if (temp == NULL) 
         return;
-    TNode* p = temp -> pPrev;
-    if (p != NULL)
+    TNode* p = temp -> pPrev; // Создаем переменную и передаем в нее предыдущий узел
+    if (p != NULL) 
     {
         if (temp -> data > value)
             p -> pRight = NULL;
         else 
             p -> pLeft = NULL;
     }       
-    ClearTreeBranchRecursion(temp);
+    ClearTreeBranchRecursion(temp); // Вызов рекурсии для удаления остальных значений дерева
     temp = NULL;
 }
 
-void Tree :: ClearTreeBranchRecursion(TNode* node)
+// Рекурсивная функция удаления поддрева
+void Tree :: ClearTreeBranchRecursion(TNode* node) 
 {
     if (node == NULL)
         return;
@@ -453,19 +459,21 @@ void Tree :: ClearTreeBranchRecursion(TNode* node)
     delete node;
 }
 
+// Функция удаления дерева
 void Tree :: ClearTree()
 {
     ClearTreeBranchRecursion(root);
     root = NULL;
 }
 
+// Итеративная функция обхода в ширину
 void Tree :: WidthIteration(TNode* node)
 {
     Queue queue;
-    queue.push(node);
+    queue.push(node); 
     while(queue.GetSize() != 0)
     {
-        TNode* temp = queue.pop();
+        TNode* temp = queue.pop(); 
         cout << temp -> data << ' ';
         if(temp -> pLeft)
             queue.push(temp -> pLeft);
@@ -475,8 +483,10 @@ void Tree :: WidthIteration(TNode* node)
     cout << endl;
 } 
 
+// Функция вывода отработки итеративной функции
 void Tree :: Width() {WidthIteration(root);}
 
+// Итеративная функция обхода в глубину
 void Tree :: DepthIteration(TNode* node)
 {
     Stack stack;
@@ -497,8 +507,10 @@ void Tree :: DepthIteration(TNode* node)
     cout << endl;
 }
 
+// Функция конечного вывода итеративной функции
 void Tree :: Depth() {DepthIteration(root);}
 
+// Функиция поиск одинаковых элементов
 int Tree :: SearchForEqual()
 {
     if(SearchForEqualRecursion(root) > 0)
@@ -507,6 +519,7 @@ int Tree :: SearchForEqual()
         cout << "Дерево не имеет одинаковых элементов" << endl;
 }
 
+// Рекурсивная функция поиска одинаковых элементов
 int Tree :: SearchForEqualRecursion(TNode* node)
 {
     if (node == NULL)

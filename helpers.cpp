@@ -14,8 +14,17 @@ Stack :: ~Stack()
 
 void Stack :: push(TNode* node)
 {
-    head = new SNode(node);
-    Size++;
+    if (head == nullptr)
+    {
+        head = new SNode(node);
+        Size++;
+    }
+    else 
+    {
+        SNode* temp = new SNode(node);
+        temp -> pNext = head;
+        head = temp;
+    }
 }
 
 TNode* Stack :: pop()

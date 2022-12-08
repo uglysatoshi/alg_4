@@ -108,7 +108,7 @@ void Tree :: Print()
 // Рекурсивная функция печати по древу
 void Tree :: RecursionPrint(TNode* node, int padding)
 {
-    if (node != NULL)
+    if (node != NULL && node -> data != 0)
     {
         cout << setw(padding) << ' ' << setw(0) << " [" << node -> data << "] " << endl;
         padding += 2;
@@ -432,30 +432,30 @@ void Tree :: ClearBranch(int value)
     TNode* temp = RecursionSearch(root, value);
     if (temp == NULL)
         return;
-    TNode* prev = temp -> pPrev;
-    if (prev != NULL)
+    TNode* p = temp -> pPrev;
+    if (p != NULL)
     {
-        if(temp -> data > value)
-            prev -> pRight = NULL;
-        else  
-            prev -> pLeft = NULL;
-    }
-    ClearTreeRecursion(temp);
-    temp = NULL;    
+        if (temp -> data > value)
+            p -> pRight = NULL;
+        else 
+            p -> pLeft = NULL;
+    }       
+    ClearTreeBranchRecursion(temp);
+    temp = NULL;
 }
 
-void Tree :: ClearTreeRecursion(TNode* node)
+void Tree :: ClearTreeBranchRecursion(TNode* node)
 {
     if (node == NULL)
         return;
-    ClearTreeRecursion(node -> pLeft);
-    ClearTreeRecursion(node -> pRight);
+    ClearTreeBranchRecursion(node -> pLeft);
+    ClearTreeBranchRecursion(node -> pRight);
     delete node;
 }
 
 void Tree :: ClearTree()
 {
-    ClearTreeRecursion(root);
+    ClearTreeBranchRecursion(root);
     root = NULL;
 }
 

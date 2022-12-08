@@ -21,12 +21,11 @@ class Tree
 {  
     private:
         TNode *root; 
-    protected:
         TNode* RecursionSearch(TNode* node, int value);
         TNode* RecursionInsert(TNode* node, int value);
         TNode* RemoveByValueRecursion(TNode* node, int value);
         TNode* RemoveMinRecursion(TNode* node);
-        void ClearTreeRecursion(TNode* node);
+        void ClearTreeBranchRecursion(TNode* node);
         int TotalLeafsRecursion(TNode* node);
         int TotalNodesRecursion(TNode* node);
         int NextNodeRecursion(TNode* node);

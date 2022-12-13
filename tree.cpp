@@ -456,6 +456,7 @@ void Tree :: ClearTreeBranchRecursion(TNode* node)
         return;
     ClearTreeBranchRecursion(node -> pLeft);
     ClearTreeBranchRecursion(node -> pRight);
+    node = NULL;
     delete node;
 }
 
